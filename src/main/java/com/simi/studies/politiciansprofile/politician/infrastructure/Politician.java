@@ -23,5 +23,11 @@ public class Politician {
       orphanRemoval = true
   )
   private Set<SocialNetwork> socialNetworks = Collections.emptySet();
+  @OneToMany(
+      mappedBy = "politician",
+      cascade = CascadeType.ALL,
+      orphanRemoval = true
+  )
+  private Set<Prison> prisons = Collections.emptySet();
 
 }
