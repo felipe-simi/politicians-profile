@@ -1,12 +1,12 @@
-package com.simi.studies.politiciansprofile.politician.infrastructure;
+package com.simi.studies.politiciansprofile.politician.command.infrastructure.database.dbo;
 
-import lombok.Value;
+import lombok.Data;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
-@Value
+@Data
 @Embeddable
-public class DocumentId implements Serializable {
+public class DocumentIdDbo implements Serializable {
 
   private static final long serialVersionUID = -5851994620530868508L;
 

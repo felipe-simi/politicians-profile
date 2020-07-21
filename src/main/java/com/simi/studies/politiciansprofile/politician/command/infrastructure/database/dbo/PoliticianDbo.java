@@ -1,4 +1,4 @@
-package com.simi.studies.politiciansprofile.politician.infrastructure;
+package com.simi.studies.politiciansprofile.politician.command.infrastructure.database.dbo;
 
 import lombok.Data;
 import javax.persistence.CascadeType;
@@ -11,23 +11,23 @@ import java.util.Set;
 
 @Data
 @Entity
-public class Politician {
+public class PoliticianDbo {
 
   @EmbeddedId
-  private DocumentId id;
+  private DocumentIdDbo id;
   @Embedded
-  private Address address;
+  private AddressDbo address;
   @OneToMany(
       mappedBy = "politician",
       cascade = CascadeType.ALL,
       orphanRemoval = true
   )
-  private Set<SocialNetwork> socialNetworks = Collections.emptySet();
+  private Set<SocialNetworkDbo> socialNetworks = Collections.emptySet();
   @OneToMany(
       mappedBy = "politician",
       cascade = CascadeType.ALL,
       orphanRemoval = true
   )
-  private Set<Prison> prisons = Collections.emptySet();
+  private Set<PrisonDbo> prisons = Collections.emptySet();
 
 }

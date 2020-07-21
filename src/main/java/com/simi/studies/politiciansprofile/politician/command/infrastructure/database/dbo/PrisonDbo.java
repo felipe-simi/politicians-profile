@@ -1,4 +1,4 @@
-package com.simi.studies.politiciansprofile.politician.infrastructure;
+package com.simi.studies.politiciansprofile.politician.command.infrastructure.database.dbo;
 
 import lombok.Data;
 import javax.persistence.CascadeType;
@@ -12,14 +12,14 @@ import java.util.UUID;
 
 @Data
 @Entity
-public class Prison {
+public class PrisonDbo {
 
   @Id
   private UUID id;
   private Instant date;
   @OneToOne(mappedBy = "prison", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
-  private Bail bail;
+  private BailDbo bail;
   @ManyToOne(fetch = FetchType.LAZY)
-  private Politician politician;
+  private PoliticianDbo politician;
 
 }
