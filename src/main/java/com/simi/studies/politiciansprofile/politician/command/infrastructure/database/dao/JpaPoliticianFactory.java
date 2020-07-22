@@ -4,6 +4,7 @@ import com.simi.studies.politiciansprofile.politician.command.api.PoliticianFact
 import com.simi.studies.politiciansprofile.politician.command.domain.model.Address;
 import com.simi.studies.politiciansprofile.politician.command.domain.model.DocumentId;
 import com.simi.studies.politiciansprofile.politician.command.domain.model.Politician;
+import com.simi.studies.politiciansprofile.politician.command.infrastructure.database.dbo.AddressDbo;
 import com.simi.studies.politiciansprofile.politician.command.infrastructure.database.dbo.DocumentIdDbo;
 import com.simi.studies.politiciansprofile.politician.command.infrastructure.database.dbo.PoliticianDbo;
 import lombok.RequiredArgsConstructor;
@@ -34,8 +35,30 @@ public class JpaPoliticianFactory implements PoliticianFactory {
   }
 
   @Override
-  public Politician create(DocumentId id, Address address) {
-    return null;
+  public Politician create(final DocumentId id, final Address address) {
+    final var dbo = new PoliticianDbo();
+    final var dboId = mapToDbo(id);
+    final var addressDbo = mapToDbo(address);
+    dbo.setId(dboId);
+    dbo.setAddress(addressDbo);
+    repository.save(dbo);
+    return Politician.builder()
+        .withId(id)
+        .withAddress(address)
+        .build();
+  }
+
+  private AddressDbo mapToDbo(final Address address) {
+    final var addressDbo = new AddressDbo();
+    addressDbo.setAddressType(address.getType().getType());
+    addressDbo.setStreet(address.getStreet());
+    addressDbo.setNumber(address.getNumber());
+    addressDbo.setComplement(address.getComplement());
+    addressDbo.setNeighborhood(address.getNeighborhood());
+    addressDbo.setPostalCode(address.getPostalCode());
+    addressDbo.setRegion(address.getRegion());
+    addressDbo.setCountry(address.getCountry());
+    return addressDbo;
   }
 
 }
