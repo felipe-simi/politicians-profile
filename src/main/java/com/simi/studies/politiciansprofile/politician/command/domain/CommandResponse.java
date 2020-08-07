@@ -5,7 +5,7 @@ import java.time.Instant;
 import java.util.Optional;
 
 @Getter
-public class CommandResponse<T> {
+public final class CommandResponse<T> {
 
   private final Optional<T> data;
   private final Optional<Throwable> error;
