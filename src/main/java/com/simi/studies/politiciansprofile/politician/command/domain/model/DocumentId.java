@@ -1,11 +1,11 @@
 package com.simi.studies.politiciansprofile.politician.command.domain.model;
 
-import lombok.Value;
+import lombok.Data;
 
-@Value
+@Data
 public class DocumentId {
 
-  private String documentCode;
-  private DocumentType documentType;
+  private final String documentCode;
+  private final DocumentType documentType;
 
 }

@@ -1,57 +1,57 @@
 package com.simi.studies.politiciansprofile.politician.command.domain.model;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
-import java.util.Collections;
+import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
-@Getter
-@AllArgsConstructor
 @Builder(setterPrefix = "with")
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Politician {
 
-  private DocumentId id;
-  private Address address;
-  private Set<SocialNetwork> socialNetworks = Collections.emptySet();
-  private Set<Prison> prisons = Collections.emptySet();
+  private final DocumentId id;
+  private final Address address;
+  private final Set<SocialNetwork> socialNetworks = new HashSet<>();
+  private final Set<Prison> prisons = new HashSet<>();
 
-  public void setAddress(Address address) {
+  public Politician(final String documentCode, final String documentType, final Address address) {
+    Optional<DocumentType> type = DocumentType.getDocumentType(documentType);
+    this.id = new DocumentId(documentCode, type.orElseThrow(() -> new IllegalArgumentException()));
     this.address = address;
   }
 
-  public boolean addSocialNetwork(final SocialNetwork socialNetwork) {
-    if (socialNetwork != null && notEmptyString(socialNetwork.getLink())
-        && notEmptyString(socialNetwork.getName())) {
-      return socialNetworks.add(socialNetwork);
+  public void addSocialNetwork(final SocialNetwork socialNetwork) {
+    if (notEmptyString(socialNetwork.getLink()) && notEmptyString(socialNetwork.getName())) {
+      socialNetworks.add(socialNetwork);
     }
-    return false;
   }
 
-  public boolean removeSocialNetwork(final SocialNetwork socialNetwork) {
-    if (socialNetwork != null && notEmptyString(socialNetwork.getLink())
-        && notEmptyString(socialNetwork.getName())) {
-      return socialNetworks.remove(socialNetwork);
+  public void removeSocialNetwork(final SocialNetwork socialNetwork) {
+    if (notEmptyString(socialNetwork.getLink()) && notEmptyString(socialNetwork.getName())) {
+      socialNetworks.remove(socialNetwork);
     }
-    return false;
   }
 
-  public boolean addPrison(final Prison prison) {
+  public void addPrison(final Prison prison) {
     if (prison != null && prison.getDate() != null) {
-      return prisons.add(prison);
+      prisons.add(prison);
     }
-    return false;
   }
 
-  public boolean removePrison(final Prison prison) {
+  public void removePrison(final Prison prison) {
     if (prison != null && prison.getDate() != null) {
-      return prisons.remove(prison);
+      prisons.remove(prison);
     }
-    return false;
   }
 
   private boolean notEmptyString(String string) {
     return (string != null && !string.isBlank());
+  }
+
+  public DocumentId getId() {
+    return id;
   }
 
 }

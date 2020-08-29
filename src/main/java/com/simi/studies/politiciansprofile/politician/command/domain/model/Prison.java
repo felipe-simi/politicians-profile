@@ -6,7 +6,7 @@ import java.time.Instant;
 @Value
 public class Prison {
 
-  private Instant date;
-  private Bail bail;
+  private final Instant date;
+  private final Bail bail;
 
 }

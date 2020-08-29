@@ -7,13 +7,13 @@ import lombok.Value;
 @Builder(setterPrefix = "with")
 public class Address {
 
-  private AddressType type;
-  private String postalCode;
-  private String street;
-  private String number;
-  private String complement;
-  private String neighborhood;
-  private String region;
-  private String country;
+  private final AddressType type;
+  private final String postalCode;
+  private final String street;
+  private final String number;
+  private final String complement;
+  private final String neighborhood;
+  private final String region;
+  private final String country;
 
 }

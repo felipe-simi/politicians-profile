@@ -8,7 +8,7 @@ public enum DocumentType {
 
   private String type;
 
-  DocumentType(String type) {
+  DocumentType(final String type) {
     this.type = type;
   }
 
@@ -16,7 +16,7 @@ public enum DocumentType {
     return type;
   }
 
-  public Optional<DocumentType> getDocumentType(String value) {
+  public static Optional<DocumentType> getDocumentType(final String value) {
     for (DocumentType documentType : DocumentType.values()) {
       if (documentType.type.equalsIgnoreCase(value)) {
         return Optional.of(documentType);

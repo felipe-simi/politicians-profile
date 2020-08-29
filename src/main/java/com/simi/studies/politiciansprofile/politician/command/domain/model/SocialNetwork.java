@@ -5,7 +5,7 @@ import lombok.Value;
 @Value
 public class SocialNetwork {
 
-  private String name;
-  private String link;
+  private final String name;
+  private final String link;
 
 }

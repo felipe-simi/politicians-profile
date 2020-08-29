@@ -6,7 +6,7 @@ public enum AddressType {
 
   RESIDENTIAL("residential"), COMMERCIAL("commercial");
 
-  private String type;
+  private final String type;
 
   AddressType(String type) {
     this.type = type;

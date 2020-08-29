@@ -7,7 +7,7 @@ import java.time.Instant;
 @Value
 public class Bail {
 
-  private BigDecimal value;
-  private Instant date;
+  private final BigDecimal value;
+  private final Instant date;
 
 }
