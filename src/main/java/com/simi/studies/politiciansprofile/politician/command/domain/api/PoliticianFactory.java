@@ -1,4 +1,4 @@
-package com.simi.studies.politiciansprofile.politician.command.api;
+package com.simi.studies.politiciansprofile.politician.command.domain.api;
 
 import com.simi.studies.politiciansprofile.politician.command.domain.model.Address;
 import com.simi.studies.politiciansprofile.politician.command.domain.model.DocumentId;
