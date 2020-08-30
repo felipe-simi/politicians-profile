@@ -37,6 +37,7 @@ public class JpaPoliticianFactory implements PoliticianFactory {
   }
 
   @Override
+  @Bulkhead(name = "politicianFactory", type = Bulkhead.Type.SEMAPHORE)
   public Politician create(final DocumentId id, final Address address) {
     final var dbo = new PoliticianDbo();
     final var dboId = mapToDbo(id);
