@@ -1,12 +1,13 @@
 package com.simi.studies.politiciansprofile.politician.command.infrastructure.database.dao;
 
-import com.simi.studies.politiciansprofile.politician.command.api.PoliticianFactory;
+import com.simi.studies.politiciansprofile.politician.command.domain.api.PoliticianFactory;
 import com.simi.studies.politiciansprofile.politician.command.domain.model.Address;
 import com.simi.studies.politiciansprofile.politician.command.domain.model.DocumentId;
 import com.simi.studies.politiciansprofile.politician.command.domain.model.Politician;
 import com.simi.studies.politiciansprofile.politician.command.infrastructure.database.dbo.AddressDbo;
 import com.simi.studies.politiciansprofile.politician.command.infrastructure.database.dbo.DocumentIdDbo;
 import com.simi.studies.politiciansprofile.politician.command.infrastructure.database.dbo.PoliticianDbo;
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,7 @@ public class JpaPoliticianFactory implements PoliticianFactory {
   private final PoliticianSpringRepository repository;
 
   @Override
+  @Bulkhead(name = "politicianFactory", type = Bulkhead.Type.SEMAPHORE)
   public Politician create(final DocumentId id) {
     final var dbo = new PoliticianDbo();
     final DocumentIdDbo dboId = mapToDbo(id);
@@ -49,6 +51,9 @@ public class JpaPoliticianFactory implements PoliticianFactory {
   }
 
   private AddressDbo mapToDbo(final Address address) {
+    if (address == null) {
+      return null;
+    }
     final var addressDbo = new AddressDbo();
     addressDbo.setAddressType(address.getType().getType());
     addressDbo.setStreet(address.getStreet());
