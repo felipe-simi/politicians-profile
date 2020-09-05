@@ -1,10 +1,9 @@
 package com.simi.studies.politiciansprofile.politician.command.infrastructure.database.dao;
 
 import com.simi.studies.politiciansprofile.politician.command.domain.api.PoliticianFactory;
-import com.simi.studies.politiciansprofile.politician.command.domain.model.Address;
 import com.simi.studies.politiciansprofile.politician.command.domain.model.DocumentId;
+import com.simi.studies.politiciansprofile.politician.command.domain.model.DocumentType;
 import com.simi.studies.politiciansprofile.politician.command.domain.model.Politician;
-import com.simi.studies.politiciansprofile.politician.command.infrastructure.database.dbo.AddressDbo;
 import com.simi.studies.politiciansprofile.politician.command.infrastructure.database.dbo.DocumentIdDbo;
 import com.simi.studies.politiciansprofile.politician.command.infrastructure.database.dbo.PoliticianDbo;
 import io.github.resilience4j.bulkhead.annotation.Bulkhead;
@@ -19,13 +18,18 @@ public class JpaPoliticianFactory implements PoliticianFactory {
 
   @Override
   @Bulkhead(name = "politicianFactory", type = Bulkhead.Type.SEMAPHORE)
-  public Politician create(final DocumentId id) {
+  public Politician create(final String documentCode, final String documentType,
+                           final String name) {
+    final var type = DocumentType.getDocumentType(documentType);
+    final var documentId =
+        new DocumentId(documentCode, type.orElseThrow(() -> new IllegalArgumentException()));
     final var dbo = new PoliticianDbo();
-    final DocumentIdDbo dboId = mapToDbo(id);
+    final DocumentIdDbo dboId = mapToDbo(documentId);
     dbo.setId(dboId);
     repository.save(dbo);
     return Politician.builder()
-        .withId(id)
+        .withId(documentId)
+        .withName(name)
         .build();
   }
 
@@ -34,37 +38,6 @@ public class JpaPoliticianFactory implements PoliticianFactory {
     dboId.setDocumentCode(id.getDocumentCode());
     dboId.setDocumentType(id.getDocumentType().getType());
     return dboId;
-  }
-
-  @Override
-  @Bulkhead(name = "politicianFactory", type = Bulkhead.Type.SEMAPHORE)
-  public Politician create(final DocumentId id, final Address address) {
-    final var dbo = new PoliticianDbo();
-    final var dboId = mapToDbo(id);
-    final var addressDbo = mapToDbo(address);
-    dbo.setId(dboId);
-    dbo.setAddress(addressDbo);
-    repository.save(dbo);
-    return Politician.builder()
-        .withId(id)
-        .withAddress(address)
-        .build();
-  }
-
-  private AddressDbo mapToDbo(final Address address) {
-    if (address == null) {
-      return null;
-    }
-    final var addressDbo = new AddressDbo();
-    addressDbo.setAddressType(address.getType().getType());
-    addressDbo.setStreet(address.getStreet());
-    addressDbo.setNumber(address.getNumber());
-    addressDbo.setComplement(address.getComplement());
-    addressDbo.setNeighborhood(address.getNeighborhood());
-    addressDbo.setPostalCode(address.getPostalCode());
-    addressDbo.setRegion(address.getRegion());
-    addressDbo.setCountry(address.getCountry());
-    return addressDbo;
   }
 
 }
