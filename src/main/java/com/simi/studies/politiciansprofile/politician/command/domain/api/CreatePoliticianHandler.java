@@ -7,8 +7,7 @@ import com.simi.studies.politiciansprofile.politician.command.domain.model.Polit
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class CreatePoliticianHandler
-    implements CommandHandler<CreatePoliticianCommand, Politician> {
+public class CreatePoliticianHandler implements CreatePoliticianClient {
 
   private final PoliticianFactory factory;
 
