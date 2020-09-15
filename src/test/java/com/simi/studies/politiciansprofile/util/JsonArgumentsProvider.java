@@ -7,14 +7,19 @@ import org.junit.jupiter.params.support.AnnotationConsumer;
 import java.util.stream.Stream;
 
 public class JsonArgumentsProvider implements ArgumentsProvider, AnnotationConsumer<JsonSource> {
+
+  private Class<?> argumentsType;
+  private String[] resources;
+
   @Override
-  public Stream<? extends Arguments> provideArguments(ExtensionContext context) throws Exception {
+  public Stream<? extends Arguments> provideArguments(final ExtensionContext context) {
     return null;
   }
 
   @Override
-  public void accept(JsonSource jsonSource) {
+  public void accept(final JsonSource jsonSource) {
+    this.argumentsType = jsonSource.argumentsType();
+    this.resources = jsonSource.resources();
   }
-
-
+  
 }
