@@ -1,6 +1,7 @@
-package com.simi.studies.politiciansprofile.util;
+package com.simi.studies.politiciansprofile.unit;
 
 import com.simi.studies.politiciansprofile.politician.command.client.CreatePoliceRequestBody;
+import com.simi.studies.politiciansprofile.util.JsonSource;
 import org.junit.jupiter.params.ParameterizedTest;
 import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertAll;
