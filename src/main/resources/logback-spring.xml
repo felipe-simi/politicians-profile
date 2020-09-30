@@ -4,7 +4,7 @@
     ​
     <springProperty scope="context" name="application" source="spring.application.name"/>
 
-    <appender name="jsonConsole" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="JSON_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
             <providers>
                 <timestamp>
@@ -68,8 +68,14 @@
             </providers>
         </encoder>
     </appender>
+
+    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>10000</queueSize>
+        <neverBlock>true</neverBlock>
+        <appender-ref ref="JSON_CONSOLE"/>
+    </appender>
     ​
     <root level="INFO">
-        <appender-ref ref="jsonConsole"/>
+        <appender-ref ref="ASYNC"/>
     </root>
 </configuration>
