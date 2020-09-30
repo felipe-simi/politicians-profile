@@ -23,7 +23,7 @@ services:
   filebeat:
     image: docker.elastic.co/beats/filebeat:7.9.2
     volumes:
-      - ./filebeat/filebeat.docker.yaml:/usr/share/filebeat/filebeat.yml:ro
+      - ./filebeat/filebeat.docker.yaml:/containers/usr/share/filebeat/filebeat.yml:ro
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     user: root
@@ -32,3 +32,21 @@ services:
     image: openzipkin/zipkin
     ports:
       - 9411:9411
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./containers/prometheus:/prometheus
+      - ./prometheus/prometheus.yaml:/etc/prometheus/prometheus.yml:ro
+  grafana:
+    image: grafana/grafana
+    ports:
+      - 3000:3000
+    volumes:
+      - ./containers/grafana:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=password
+    depends_on:
+      - prometheus
