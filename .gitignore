@@ -31,4 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Docker Compose permanent files ###
 /src/main/docker/local/containers/
