@@ -11,6 +11,27 @@ services:
       - jaeger-server
     networks:
       - docker-network
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - 2181:2181
+    networks:
+      - docker-network
+  kafka:
+    image: wurstmeister/kafka
+    build: .
+    ports:
+      - 9092:9092
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_CREATE_TOPICS: "politician_created:1:1"
+    depends_on:
+      - zookeeper
+    networks:
+      - docker-network
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
     ports:
