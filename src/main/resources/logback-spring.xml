@@ -16,6 +16,19 @@
                 <loggerName/>
                 <threadName/>
                 <context/>
+                <pattern>
+                    <omitEmptyFields>true</omitEmptyFields>
+                    <pattern>
+                        {
+                            "trace": {
+                                "trace_id": "%X{traceId:-}",
+                                "span_id": "%X{spanId:-}",
+                                "parent_span_id": "%X{parentSpanId:-}",
+                                "baggage": "%X{key:-}"
+                            }
+                        }
+                    </pattern>
+                </pattern>
                 <stackTrace>
                     <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
                         <maxDepthPerThrowable>30</maxDepthPerThrowable>
@@ -51,20 +64,6 @@
                         <exclude>^java\.lang\.Thread\.run$</exclude>
                     </throwableConverter>
                 </stackTrace>
-                <pattern>
-                    <omitEmptyFields>true</omitEmptyFields>
-                    <pattern>
-                        {
-                            "trace": {
-                                "trace_id": "%X{X-B3-TraceId:-}",
-                                "span_id": "%X{X-B3-SpanId:-}",
-                                "parent_span_id": "%X{X-B3-ParentSpanId:-}",
-                                "exportable": "%X{X-Span-Export:-}",
-                                "baggage": "%X{key:-}"
-                            }
-                        }
-                    </pattern>
-                </pattern>
             </providers>
         </encoder>
     </appender>
